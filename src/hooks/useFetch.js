@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import {
   AUTHORIZATION,
-  CONSTANT_CONFIG_BODY_DATA,
+  AUTHORIZATION_2,
   REQUEST_URL,
-} from '../constants';
+	SERVICE_PAYLOAD,
+} from '../utils/constants';
 
 const useFetch = () => {
   const [data, setData] = useState(null);
@@ -12,11 +13,10 @@ const useFetch = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  const makeRequest = extraConfigBodyData => {
+  const makeRequest = (extraServicePayloadData, authorization) => {
     setIsLoading(true);
     fetch(REQUEST_URL, {
       method: 'post',
-      mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
         Authorization: AUTHORIZATION,
@@ -24,8 +24,38 @@ const useFetch = () => {
       body: JSON.stringify({
         service_type: 'Account',
         service_payload: {
-          ...CONSTANT_CONFIG_BODY_DATA,
-          ...extraConfigBodyData,
+          ...SERVICE_PAYLOAD,
+          ...extraServicePayloadData,
+        },
+      }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        setIsSuccess(true);
+        setIsError(false);
+        setIsLoading(false);
+        setData(data);
+      })
+      .catch(error => {
+        setIsSuccess(false);
+        setIsError(true);
+        setIsLoading(false);
+        setErrorResponse(error);
+      });
+  };
+  const makeRequest2 = (extraServicePayloadData) => {
+    setIsLoading(true);
+    fetch(REQUEST_URL, {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: AUTHORIZATION_2,
+      },
+      body: JSON.stringify({
+        service_type: 'Account',
+        service_payload: {
+          ...SERVICE_PAYLOAD,
+          ...extraServicePayloadData,
         },
       }),
     })
@@ -47,6 +77,7 @@ const useFetch = () => {
   return {
     data,
     makeRequest,
+    makeRequest2,
     isLoading,
     isError,
     isSuccess,

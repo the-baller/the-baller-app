@@ -1,22 +1,19 @@
 import { useEffect } from 'react';
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from 'react-router-dom';
 import useFetch from './hooks/useFetch';
-import Dashboard from "./pages/Dashboard";
-import Home from "./pages/Home";
-import SignIn from "./pages/SignIn";
+import Dashboard from './pages/Dashboard';
+import Home from './pages/Home';
+import Payments from './pages/Payments';
+import SignIn from './pages/SignIn';
+import Transfers from './pages/Transfers';
 
 const App = () => {
-  const { makeRequest, data } = useFetch();
+  const { makeRequest } = useFetch();
 
   const callEndpoint = () => {
     const body = {
-      request_class: 'FetchPayazaAccountBeneficiaryRequest',
+      request_class: 'FetchPayazaAccountRequest',
     };
-    // const body = {
-    //   request_class: 'AccountNameEnquiryMerchant',
-    //   bank_code: '000013',
-    //   account_number: '0149378999',
-    // };
 
     makeRequest(body);
   };
@@ -24,17 +21,30 @@ const App = () => {
   useEffect(() => {
     callEndpoint();
   }, []);
-
-  useEffect(() => {
-    data && console.log(data);
-  }, [data]);
-
+  
   return (
     <>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route
+          path="/"
+          element={<Home />}
+        />
+        <Route
+          path="/sign-in"
+          element={<SignIn />}
+        />
+        <Route
+          path="/dashboard"
+          element={<Dashboard />}
+        />
+        <Route
+          path="/transfers"
+          element={<Transfers />}
+        />
+        <Route
+          path="/payments"
+          element={<Payments />}
+        />
       </Routes>
     </>
   );
