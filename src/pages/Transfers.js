@@ -9,6 +9,7 @@ import { Oval } from 'react-loader-spinner';
 const Transfers = () => {
   const navigate = useNavigate();
   const [banks, setBanks] = useState([]);
+  const [showForm, setShowForm] = useState(false);
   const [recipientInfo, setRecipientInfo] = useState({
     credit_amount: 0,
     account_number: '9994845772',
@@ -28,39 +29,35 @@ const Transfers = () => {
   //   isLoading: accountNameLoading,
   // } = useFetch();
 
-  const modifyRecipientInfo = ({ target: { name, value } }) => {
-    setRecipientInfo(info => ({
-      ...info,
-      [name]: value,
-    }));
-  };
+  // const modifyRecipientInfo = ({ target: { name, value } }) => {
+  //   setRecipientInfo(info => ({
+  //     ...info,
+  //     [name]: value,
+  //   }));
+  // };
 
-  const modifyAmount = () => {
-    const credit_amount = prompt("enter the amount you'll like to move");
-    console.log(credit_amount);
+  const modifyAmount = event => {
+    setShowForm(true)
     setRecipientInfo(info => ({
       ...info,
-      credit_amount,
+      credit_amount: event.target.value,
     }));
-    console.log(credit_amount);
-    initiateTransfer(credit_amount);
-    console.log(credit_amount);
+    initiateTransfer(event.target.value);
   };
 
   // const modifyNarration = ({ target: { value } }) => {
   //   setNarration(value);
   // };
 
-  const initiateTransfer = credit_amount => {
-    console.log({ credit_amount });
+  const initiateTransfer = e => {
+    e.preventDefault();
     const config = {
       request_class: ENDPOINTS.transfer,
-      payout_amount: credit_amount,
+      payout_amount: recipientInfo.credit_amount,
       transaction_pin: TRANSACTION_PIN,
       narration: 'send funds to offline account',
       payout_beneficiaries: [recipientInfo],
     };
-    console.log(config);
     transferToBaller(config);
   };
 
@@ -78,7 +75,7 @@ const Transfers = () => {
     <>
       {offlineTransferLoading ? (
         <div
-          className="w-full flex justify-center items-center bg-[#00000020] fixed top-0 left-0"
+          className="w-full flex justify-center items-center bg-[#00000010] fixed top-0 left-0"
           style={{ height: '100vh' }}
         >
           <Oval
@@ -107,6 +104,7 @@ const Transfers = () => {
                 label="Fund Offline Account"
                 extraInfo="save offline funds for emergency transactions"
                 onClick={modifyAmount}
+                isLink={true}
               />
               <ActivityCard
                 label="B2B Transfer"
@@ -114,6 +112,25 @@ const Transfers = () => {
                 isOffline={true}
               />
             </div>
+            {showForm && (
+              <form
+                onSubmit={initiateTransfer}
+                className="flex flex-col gap-8 w-96 text-indigo-500"
+              >
+                <label className="flex flex-col gap-2">
+                  How much (in ₦) will you like to move offline?
+                  <input
+                    value={recipientInfo.credit_amount}
+                    onChange={modifyAmount}
+                    className="px-2 py-4 rounded-md border border-indigo-100"
+                    type="number"
+                  />
+                </label>
+                <button className="rounded-md bg-indigo-700 text-white p-3 w-fit">
+                  Move Funds
+                </button>
+              </form>
+            )}
           </div>
         </PageWrapper>
       )}

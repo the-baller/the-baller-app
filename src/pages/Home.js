@@ -13,7 +13,7 @@ const Home = () => {
     <>
     <Header />
       <div class="bg-[#00161F] bg-gradient-to-r from-indigo-900 text-white py-[50px]">
-        <section class="w-full h-[70vh] flex flex-col m-auto w-[85%] justify-between items-center pt-0 md:flex-row animate-fade-in-down">
+        <section class="w-full min-h-[70vh] flex flex-col m-auto w-[85%] justify-between items-center pt-0 md:flex-row animate-fade-in-down">
           <div class="flex flex-col md:w-3/4 lg:w-1/2">
             <h1 class="font-['Neutral Face'] font-semibold text-5xl font-bold">
               Why be a Mechanic when you can be a Baller?
@@ -25,7 +25,7 @@ const Home = () => {
               app got you covered in this aspect.
             </p>
             <Link
-              class="block text-center font-semibold text-md w-2/4 bg-[#8941FF] py-3 px-4 rounded-md"
+              class="block text-center font-semibold text-md w-2/4 bg-[#8941FF] py-3 px-4 rounded-md scroll-mb-8"
               to="/sign-in"
             >
               Get Started
@@ -43,9 +43,9 @@ const Home = () => {
           <div class="hidden md:block absolute bottom-[-5%] right-[4%] bg-[#8941FF] w-[200px] h-[200px] rounded-[50%]"></div>
         </section>
 
-        <section class="block m-auto w-[85%] pt-[40px] min-h-[120vh] md:pt-[120px] lg:min-h-[100vh]">
-          <h2 class="font-['Neutral Face'] font-semibold text-4xl font-bold text-center lg:text-start">
-            What we brings to the table
+        <section class="block m-auto w-[85%] mt-8 pt-[40px] min-h-[120vh] md:pt-[120px] lg:min-h-[100vh]">
+          <h2 class="font-['Neutral Face'] font-semibold text-4xl  text-center lg:text-start">
+            What we bring to the table
           </h2>
           <div class="grid gap-3 py-5 md:grid-cols-2 lg:grid-cols-3">
             <div class="w-[100%] h-[100%] flex flex-col justify-between bg-[#021E2A] p-8 border-solid rounded-xl m-auto">
