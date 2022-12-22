@@ -43,5 +43,5 @@ export const DUMMY_MERCHANTS = [
   'Game',
   'The Pause Cafe',
   'FlowerShop',
-  ''
+  'Payaza Kiddies Store'
 ]

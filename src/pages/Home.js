@@ -6,10 +6,12 @@ import Billings from "../assets/billings.jpg";
 import EppMe from "../assets/epp-me.jpg";
 import Ballers from "../assets/ballers.jpg";
 import Seamless from "../assets/seamless.jpg";
+import Header from "../layout/Header";
 
 const Home = () => {
   return (
     <>
+    <Header />
       <div class="bg-[#00161F] bg-gradient-to-r from-indigo-900 text-white py-[50px]">
         <section class="w-full h-[70vh] flex flex-col m-auto w-[85%] justify-between items-center pt-0 md:flex-row animate-fade-in-down">
           <div class="flex flex-col md:w-3/4 lg:w-1/2">

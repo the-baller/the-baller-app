@@ -12,6 +12,7 @@
     "react-barcode": "^1.4.6",
     "react-dom": "^18.2.0",
     "react-icons": "^4.7.1",
+    "react-loader-spinner": "^5.3.4",
     "react-router-dom": "^6.6.0",
     "react-scripts": "5.0.1",
     "react-switch": "^7.0.0",

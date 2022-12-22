@@ -18,18 +18,35 @@ const Payments = () => {
       [name]: value,
     }));
   };
-  const generateBarcode = (event) => {
-		event.preventDefault();
+  const generateBarcode = event => {
+    event.preventDefault();
     setStringifiedData(JSON.stringify(transactionDetails));
     setRenderBarcode(true);
   };
+
+  const generateAnother = () => {
+    setTransactionDetails({
+      amount: '',
+      narration: '',
+      merchant: '',
+    })
+    setRenderBarcode(false)
+  }
 
   return (
     <PageWrapper>
       <div className="flex flex-col gap-6 mt-10 h-full">
         <div className="rounded-md bg-white shadow-lg border border-indigo-50 px-4 py-6 text-indigo-700">
           {renderBarcode ? (
-            <Barcode value={stringifiedData} />
+            <div className="max-w-sm flex flex-col gap-8">
+              <Barcode
+                value={stringifiedData}
+                width={1}
+              />
+              <button className="bg-indigo-700 text-white p-4 rounded-md w-fit" onClick={generateAnother}>
+                Generate another
+              </button>
+            </div>
           ) : (
             <>
               <h3 className="pb-4 text-lg font-semibold">Offline Payment</h3>
@@ -44,6 +61,7 @@ const Payments = () => {
                   Merchant Name
                   <select
                     className="w-full py-2 px-4 border border-indigo-50 rounded-md"
+                    name="merchant"
                     value={transactionDetails.merchant}
                     onChange={modifyTransactionDetails}
                   >
@@ -66,6 +84,7 @@ const Payments = () => {
                   <input
                     type="number"
                     id="amount"
+                    name="amount"
                     value={transactionDetails.amount}
                     onChange={modifyTransactionDetails}
                     className="w-full py-2 px-4 border border-indigo-50 rounded-md"
@@ -79,12 +98,15 @@ const Payments = () => {
                   <textarea
                     type="text"
                     id="narration"
+                    name="narration"
                     value={transactionDetails.narration}
                     onChange={modifyTransactionDetails}
                     className="w-full py-2 px-4 border border-indigo-50 rounded-md cursor-not-allowed"
                   />
                 </label>
-								<button className='bg-indigo-700 text-white p-4 rounded-md'>Generate Barcode</button>
+                <button className="bg-indigo-700 text-white p-4 rounded-md">
+                  Generate Barcode
+                </button>
               </form>
             </>
           )}

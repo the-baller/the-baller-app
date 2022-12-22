@@ -4,6 +4,7 @@ import ActivityCard from '../components/ActivityCard';
 import PageWrapper from '../components/PageWrapper';
 import useFetch from '../hooks/useFetch';
 import { ENDPOINTS, TRANSACTION_PIN } from '../utils/constants';
+import { Oval } from 'react-loader-spinner';
 
 const Transfers = () => {
   const navigate = useNavigate();
@@ -16,8 +17,11 @@ const Transfers = () => {
   });
   // const [narration, setNarration] = useState('');
 
-  const { makeRequest: transferToBaller, isSuccess: offlineTransferSuccess } =
-    useFetch();
+  const {
+    makeRequest: transferToBaller,
+    isSuccess: offlineTransferSuccess,
+    isLoading: offlineTransferLoading,
+  } = useFetch();
   // const {
   //   makeRequest: verifyAccountName,
   //   data: accountName,
@@ -33,22 +37,22 @@ const Transfers = () => {
 
   const modifyAmount = () => {
     const credit_amount = prompt("enter the amount you'll like to move");
-		console.log(credit_amount);
+    console.log(credit_amount);
     setRecipientInfo(info => ({
-			...info,
+      ...info,
       credit_amount,
     }));
-		console.log(credit_amount);
+    console.log(credit_amount);
     initiateTransfer(credit_amount);
-		console.log(credit_amount);
+    console.log(credit_amount);
   };
-	
+
   // const modifyNarration = ({ target: { value } }) => {
-		//   setNarration(value);
-		// };
-		
-		const initiateTransfer = (credit_amount) => {
-		console.log({credit_amount});
+  //   setNarration(value);
+  // };
+
+  const initiateTransfer = credit_amount => {
+    console.log({ credit_amount });
     const config = {
       request_class: ENDPOINTS.transfer,
       payout_amount: credit_amount,
@@ -56,7 +60,7 @@ const Transfers = () => {
       narration: 'send funds to offline account',
       payout_beneficiaries: [recipientInfo],
     };
-		console.log(config);
+    console.log(config);
     transferToBaller(config);
   };
 
@@ -71,28 +75,49 @@ const Transfers = () => {
   }, []);
 
   return (
-    <PageWrapper>
-      <div className="flex flex-col gap-12 h-full overflow-auto">
-        <h3 className="text-indigo-700 text-2xl font-bold pt-4">Transfers</h3>
-        <h3 className="text-indigo-700 pt-4">
-          Transfer funds from your Online baller account
-          <br />
-          to your offline account or to a fellow baller like you 🙂
-        </h3>
-        <div className="flex gap-8 text-indigo-700">
-          <ActivityCard
-            label="Fund Offline Account"
-            extraInfo="save offline funds for emergency transactions"
-            onClick={modifyAmount}
-          />
-          <ActivityCard
-            label="B2B Transfer"
-            extraInfo="send funds to your fellow baller"
-            isOffline={true}
+    <>
+      {offlineTransferLoading ? (
+        <div
+          className="w-full flex justify-center items-center bg-[#00000020] fixed top-0 left-0"
+          style={{ height: '100vh' }}
+        >
+          <Oval
+            height="80"
+            width="80"
+            radius="9"
+            color="#6366f1"
+            ariaLabel="loading"
+            wrapperStyle
+            wrapperClass
           />
         </div>
-      </div>
-    </PageWrapper>
+      ) : (
+        <PageWrapper>
+          <div className="flex flex-col gap-12 h-full overflow-auto">
+            <h3 className="text-indigo-700 text-2xl font-bold pt-4">
+              Transfers
+            </h3>
+            <h3 className="text-indigo-700 pt-4">
+              Transfer funds from your Online baller account
+              <br />
+              to your offline account or to a fellow baller like you 🙂
+            </h3>
+            <div className="flex gap-8 text-indigo-700">
+              <ActivityCard
+                label="Fund Offline Account"
+                extraInfo="save offline funds for emergency transactions"
+                onClick={modifyAmount}
+              />
+              <ActivityCard
+                label="B2B Transfer"
+                extraInfo="send funds to your fellow baller"
+                isOffline={true}
+              />
+            </div>
+          </div>
+        </PageWrapper>
+      )}
+    </>
   );
 };
 
